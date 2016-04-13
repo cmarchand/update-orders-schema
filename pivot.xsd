@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
+    xmlns="eu:els:inneo:contenus-induits:generation"
+    targetNamespace="eu:els:inneo:contenus-induits:generation">
+    
+    
+    <xs:element name="generation" type="Generation"/>
+    
+    <xs:complexType name="Generation">
+        <xs:choice maxOccurs="unbounded">
+            <xs:element name="link" type="Link"/>
+            <xs:element name="delete" type="Delete"/>
+            <xs:element name="addAttribute" type="AddAttribute"/>
+        </xs:choice>
+        <xs:attribute name="type" type="CIType" use="required"/>
+    </xs:complexType>
+    
+    <xs:simpleType name="CIType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="ci-actualisation"/>
+            <xs:enumeration value="ci-formulaire"/>
+            <xs:enumeration value="ci-simulateur"/>
+            <xs:enumeration value="ci-intraNonInter"/>
+        </xs:restriction>
+    </xs:simpleType>
+    
+    <xs:complexType name="Link">
+        <xs:sequence>
+            <xs:element name="titre" type="Titre"/>
+        </xs:sequence>
+        <xs:attribute name="baseco-code" type="xs:string" use="required"/>
+        <xs:attribute name="pNonNum" type="xs:NCName" use="required">
+            <xs:annotation>
+                <xs:documentation>L'ID du PNonNum portant VoirAussi, dans la baseco</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="file" type="xs:string" use="required"/>
+        <xs:attribute name="refid" type="xs:NCName" use="required"/>
+        <xs:attribute name="marqueur" type="xs:string" use="required"/>
+        <xs:attribute name="supp" type="xs:string" use="required"/>
+        <xs:attribute name="linkid-parent" type="xs:NCName"/>
+        <xs:attribute name="pos" type="xs:integer"/>
+    </xs:complexType>
+    
+    <xs:complexType name="Titre">
+        <xs:all/>
+        <xs:anyAttribute/>
+    </xs:complexType>
+    
+    <xs:complexType name="Delete">
+        <xs:attribute name="baseco-code" type="xs:string" use="required"/>
+        <xs:attribute name="refid" type="xs:NCName" use="required"/>
+        <xs:attribute name="attribute-name" type="xs:NCName">
+            <xs:annotation>
+                <xs:documentation>Quand on ne veut supprimer qu'un attribut. Sans cette valeur, on supprime tout le nœud</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+    <xs:complexType name="AddAttribute"></xs:complexType>
+</xs:schema>
